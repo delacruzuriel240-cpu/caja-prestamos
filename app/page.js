@@ -1,4 +1,26 @@
+'use client'
+
+import { useState } from 'react'
+
 export default function Home() {
+  const [nombre, setNombre] = useState('')
+  const [monto, setMonto] = useState('')
+  const [prestamos, setPrestamos] = useState([])
+
+  const agregarPrestamo = () => {
+    if (!nombre || !monto) return
+
+    const nuevo = {
+      nombre,
+      monto
+    }
+
+    setPrestamos([...prestamos, nuevo])
+
+    setNombre('')
+    setMonto('')
+  }
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -10,7 +32,7 @@ export default function Home() {
         maxWidth: '400px',
         margin: '0 auto'
       }}>
-        
+
         <div style={{
           background: '#15803d',
           color: 'white',
@@ -19,27 +41,57 @@ export default function Home() {
           marginBottom: '20px'
         }}>
           <h1>📒 Caja Préstamos 2026</h1>
-          <p>Control de préstamos y réditos</p>
+          <p>Registro de préstamos</p>
         </div>
 
         <div style={{
           background: 'white',
           padding: '20px',
           borderRadius: '20px',
-          marginBottom: '15px'
+          marginBottom: '20px'
         }}>
-          <h2>💰 Total prestado</h2>
-          <h1>$35,000</h1>
-        </div>
+          <h2>➕ Nuevo préstamo</h2>
 
-        <div style={{
-          background: 'white',
-          padding: '20px',
-          borderRadius: '20px',
-          marginBottom: '15px'
-        }}>
-          <h2>📈 Réditos próximos</h2>
-          <h1>$1,238</h1>
+          <input
+            placeholder="Nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px',
+              marginTop: '10px',
+              marginBottom: '10px',
+              borderRadius: '10px',
+              border: '1px solid #ccc'
+            }}
+          />
+
+          <input
+            placeholder="Monto"
+            value={monto}
+            onChange={(e) => setMonto(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px',
+              marginBottom: '10px',
+              borderRadius: '10px',
+              border: '1px solid #ccc'
+            }}
+          />
+
+          <button
+            onClick={agregarPrestamo}
+            style={{
+              width: '100%',
+              padding: '12px',
+              background: '#15803d',
+              color: 'white',
+              border: 'none',
+              borderRadius: '10px'
+            }}
+          >
+            Guardar préstamo
+          </button>
         </div>
 
         <div style={{
@@ -47,15 +99,20 @@ export default function Home() {
           padding: '20px',
           borderRadius: '20px'
         }}>
-          <h2>💵 Préstamos activos</h2>
+          <h2>💵 Préstamos registrados</h2>
 
-          <p>• Néstor → $15,000</p>
-          <p>• Micaela → $3,000</p>
-          <p>• Daniel → $3,000</p>
-          <p>• Teresa → $1,000</p>
+          {prestamos.map((p, i) => (
+            <div key={i} style={{
+              borderBottom: '1px solid #ddd',
+              padding: '10px 0'
+            }}>
+              <strong>{p.nombre}</strong>
+              <p>${p.monto}</p>
+            </div>
+          ))}
         </div>
 
       </div>
     </div>
-  );
-}
+  )
+              }
